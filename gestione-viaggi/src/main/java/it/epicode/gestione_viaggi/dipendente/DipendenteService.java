@@ -7,16 +7,20 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
-@Validated
 public class DipendenteService {
 
     private final DipendenteRepository dipendenteRepository;
+    private final DipendenteConfig dipendenteConfig;
+
+    public Dipendente createFakeDipendente() {
+        return dipendenteConfig.dipendente();
+    }
 
     public DipendenteResponse dipendenteResponseFromEntity(Dipendente dipendente) {
         DipendenteResponse response = new DipendenteResponse();

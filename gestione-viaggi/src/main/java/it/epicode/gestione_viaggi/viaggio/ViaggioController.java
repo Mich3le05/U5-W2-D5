@@ -1,7 +1,6 @@
 package it.epicode.gestione_viaggi.viaggio;
 
 import it.epicode.gestione_viaggi.response.CreateResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,10 +8,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/viaggi")
-@RequiredArgsConstructor
 public class ViaggioController {
 
     private final ViaggioService viaggioService;
+
+    public ViaggioController(ViaggioService viaggioService) {
+        this.viaggioService = viaggioService;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -22,8 +24,8 @@ public class ViaggioController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Viaggio findById(@PathVariable Long id) {
-        return viaggioService.findById(id);
+    public ViaggioDetailResponse findViaggioDetail(@PathVariable Long id) {
+        return viaggioService.findViaggioResponseFromId(id);
     }
 
     @PostMapping
@@ -34,7 +36,7 @@ public class ViaggioController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Viaggio modify(@PathVariable Long id, @RequestBody ViaggioRequest request) {
+    public ViaggioDetailResponse modify(@PathVariable Long id, @RequestBody ViaggioRequest request) {
         return viaggioService.modify(id, request);
     }
 

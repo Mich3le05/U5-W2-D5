@@ -22,8 +22,8 @@ public class DipendenteController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Dipendente findById(@PathVariable Long id) {
-        return dipendenteService.findById(id);
+    public DipendenteResponse findById(@PathVariable Long id) {
+        return dipendenteService.dipendenteResponseFromEntity(dipendenteService.findById(id));
     }
 
     @PostMapping
@@ -42,5 +42,11 @@ public class DipendenteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         dipendenteService.delete(id);
+    }
+
+    @GetMapping("/{id}/dettagli")
+    @ResponseStatus(HttpStatus.OK)
+    public DipendenteDetailResponse getDipendenteDetails(@PathVariable Long id) {
+        return dipendenteService.findDipendenteResponseFromId(id);
     }
 }

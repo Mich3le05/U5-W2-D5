@@ -8,9 +8,12 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class PrenotazioneRequest {
+
+    private String note;
+    private String preferenze;
 
     @NotNull(message = "Il dipendente non può essere nullo")
     private Long dipendenteId;
@@ -20,8 +23,4 @@ public class PrenotazioneRequest {
 
     @NotNull(message = "La data di richiesta non può essere nulla")
     private LocalDate dataRichiesta;
-
-    private String note;
-
-    private String preferenze;
 }

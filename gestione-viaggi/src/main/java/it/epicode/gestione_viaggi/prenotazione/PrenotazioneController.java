@@ -2,11 +2,12 @@ package it.epicode.gestione_viaggi.prenotazione;
 
 import it.epicode.gestione_viaggi.response.CreateResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/prenotazioni")
@@ -15,28 +16,29 @@ public class PrenotazioneController {
 
     private final PrenotazioneService prenotazioneService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CreateResponse createPrenotazione(@RequestBody PrenotazioneRequest request) {
-        return prenotazioneService.createPrenotazione(request);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<PrenotazioneResponse> findAll() {
-        return prenotazioneService.findAll();
+    public Page<PrenotazioneDetailResponse> findAll(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return prenotazioneService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PrenotazioneResponse findById(@PathVariable Long id) {
+    public PrenotazioneDetailResponse findById(@PathVariable Long id) {
         return prenotazioneService.findById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreateResponse save(@RequestBody PrenotazioneRequest prenotazioneRequest) {
+        return prenotazioneService.save(prenotazioneRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PrenotazioneResponse modify(@PathVariable Long id, @RequestBody PrenotazioneRequest request) {
-        return prenotazioneService.modify(id, request);
+    public PrenotazioneDetailResponse modify(@PathVariable Long id, @RequestBody PrenotazioneRequest prenotazioneRequest) {
+        return prenotazioneService.modify(id, prenotazioneRequest);
     }
 
     @DeleteMapping("/{id}")

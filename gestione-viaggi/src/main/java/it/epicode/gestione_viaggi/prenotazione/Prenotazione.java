@@ -20,15 +20,15 @@ public class Prenotazione {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private LocalDate dataRichiesta; // Data di richiesta prenotazione
-    private String note; // Eventuali note del dipendente
-    private String preferenze; // Preferenze per volo, alloggio, ecc.
+    private LocalDate dataRichiesta;
+    private String note;
+    private String preferenze;
 
     @ManyToOne
     @JoinColumn(name = "dipendente_id")
-    private Dipendente dipendente; // Riferimento al dipendente
+    private Dipendente dipendente;
 
     @ManyToOne
     @JoinColumn(name = "viaggio_id")
-    private Viaggio viaggio; // Riferimento al viaggio
+    private Viaggio viaggio;
 }

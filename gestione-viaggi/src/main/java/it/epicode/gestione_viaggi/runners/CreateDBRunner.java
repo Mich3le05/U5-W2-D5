@@ -25,14 +25,20 @@ public class CreateDBRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Creazione dipendente e viaggio (già fatto)
-        Dipendente dipendente = new Dipendente("mario.rossi", "Mario", "Rossi", "mario.rossi@example.com");
+
+        Dipendente dipendente = new Dipendente();
+        dipendente.setUsername("mario.rossi");
+        dipendente.setName("Mario");
+        dipendente.setCognome("Rossi");
+        dipendente.setEmail("mario.rossi@example.com");
         dipendenteRepository.save(dipendente);
 
-        Viaggio viaggio = new Viaggio("Milano", LocalDate.now().plusDays(10), StatoViaggio.IN_PROGRAMMA);
+        Viaggio viaggio = new Viaggio();
+        viaggio.setDestinazione("Milano");
+        viaggio.setData(LocalDate.now().plusDays(10));
+        viaggio.setStato(StatoViaggio.IN_PROGRAMMA);
         viaggioRepository.save(viaggio);
 
-        // Creazione prenotazione
         Prenotazione prenotazione = new Prenotazione();
         prenotazione.setDipendente(dipendente);
         prenotazione.setViaggio(viaggio);

@@ -1,5 +1,6 @@
 package it.epicode.gestione_viaggi.prenotazione;
 
+import it.epicode.gestione_viaggi.response.CreateResponse;
 import it.epicode.gestione_viaggi.dipendente.Dipendente;
 import it.epicode.gestione_viaggi.dipendente.DipendenteRepository;
 import it.epicode.gestione_viaggi.viaggio.Viaggio;
@@ -19,29 +20,42 @@ public class PrenotazioneService {
     private final DipendenteRepository dipendenteRepository;
     private final ViaggioRepository viaggioRepository;
 
-    public Prenotazione createPrenotazione(Long dipendenteId, Long viaggioId, LocalDate dataRichiesta, String note, String preferenze) {
-        // Recupera il dipendente
-        Dipendente dipendente = dipendenteRepository.findById(dipendenteId)
+    public CreateResponse createPrenotazione(PrenotazioneRequest request) {
+        Dipendente dipendente = dipendenteRepository.findById(request.getDipendenteId())
                 .orElseThrow(() -> new EntityNotFoundException("Dipendente non trovato"));
 
-        // Recupera il viaggio
-        Viaggio viaggio = viaggioRepository.findById(viaggioId)
+        Viaggio viaggio = viaggioRepository.findById(request.getViaggioId())
                 .orElseThrow(() -> new EntityNotFoundException("Viaggio non trovato"));
 
-        // Controlla se il dipendente ha già una prenotazione per questa data
-        List<Prenotazione> prenotazioni = prenotazioneRepository.findByDipendenteAndDataRichiesta(dipendenteId, dataRichiesta);
+        List<Prenotazione> prenotazioni = prenotazioneRepository.findByDipendenteAndDataRichiesta(request.getDipendenteId(), request.getDataRichiesta());
         if (!prenotazioni.isEmpty()) {
             throw new IllegalStateException("Il dipendente ha già una prenotazione per questa data");
         }
 
-        // Crea la prenotazione
         Prenotazione prenotazione = new Prenotazione();
         prenotazione.setDipendente(dipendente);
         prenotazione.setViaggio(viaggio);
-        prenotazione.setDataRichiesta(dataRichiesta);
-        prenotazione.setNote(note);
-        prenotazione.setPreferenze(preferenze);
+        prenotazione.setDataRichiesta(request.getDataRichiesta());
+        prenotazione.setNote(request.getNote());
+        prenotazione.setPreferenze(request.getPreferenze());
 
-        return prenotazioneRepository.save(prenotazione);
+        Prenotazione savedPrenotazione = prenotazioneRepository.save(prenotazione);
+
+        return new CreateResponse(savedPrenotazione.getId());
+    }
+
+    public List<PrenotazioneResponse> findAll() {
+        return null;
+    }
+
+    public PrenotazioneResponse findById(Long id) {
+        return null;
+    }
+
+    public PrenotazioneResponse modify(Long id, PrenotazioneRequest request) {
+        return null;
+    }
+
+    public void delete(Long id) {
     }
 }

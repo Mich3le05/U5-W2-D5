@@ -1,5 +1,6 @@
 package it.epicode.gestione_viaggi.dipendente;
 
+import it.epicode.gestione_viaggi.response.CreateResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class DipendenteController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Dipendente> findAll() {
+    public List<DipendenteResponse> findAll() {
         return dipendenteService.findAll();
     }
 
@@ -27,14 +28,14 @@ public class DipendenteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Dipendente save(@RequestBody Dipendente request) {
+    public CreateResponse save(@RequestBody DipendenteRequest request) {
         return dipendenteService.save(request);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Dipendente modify(@PathVariable Long id, @RequestBody DipendenteRequest request) {
-        return dipendenteService.modify(id, reques);
+        return dipendenteService.modify(id, request);
     }
 
     @DeleteMapping("/{id}")

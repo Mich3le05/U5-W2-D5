@@ -27,14 +27,14 @@ public class CreateDBRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Dipendente dipendente = new Dipendente();
-        dipendente.setUsername("mario.rossi");
-        dipendente.setName("Mario");
-        dipendente.setCognome("Rossi");
-        dipendente.setEmail("mario.rossi@example.com");
+        dipendente.setUsername("peppe.val");
+        dipendente.setName("Peppe");
+        dipendente.setCognome("Valenti");
+        dipendente.setEmail("peppeval@example.com");
         dipendenteRepository.save(dipendente);
 
         Viaggio viaggio = new Viaggio();
-        viaggio.setDestinazione("Milano");
+        viaggio.setDestinazione("Torino");
         viaggio.setData(LocalDate.now().plusDays(10));
         viaggio.setStato(StatoViaggio.IN_PROGRAMMA);
         viaggioRepository.save(viaggio);
@@ -44,7 +44,7 @@ public class CreateDBRunner implements CommandLineRunner {
         prenotazione.setViaggio(viaggio);
         prenotazione.setDataRichiesta(LocalDate.now().plusDays(1));
         prenotazione.setNote("Preferenza per volo diretto");
-        prenotazione.setPreferenze("Alloggio in hotel 4 stelle");
+        prenotazione.setPreferenze("Alloggio in hotel 2 stelle");
 
         prenotazioneRepository.save(prenotazione);
     }
